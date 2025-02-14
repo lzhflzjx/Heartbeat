@@ -1,207 +1,266 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- 新增移动端适配meta标签 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>燕萍的专属情人节祝福</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(45deg, #ff99cc, #ff3385);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Microsoft YaHei', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 4em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: bounce 2s infinite;
+        }
+
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff0066;
+            font-size: 24px;
+            animation: fall 4s linear infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 新增玫瑰元素样式 */
+        .rose {
+            position: absolute;
+            color: #FF1493;
+            /* 玫瑰粉色 */
+            font-size: 34px;
+            animation: roseFall 5s linear infinite;
+        }
+
+        /* 单独玫瑰下落动画 */
+        @keyframes roseFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0.8;
+            }
+
+            80% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 新增玫瑰容器样式 */
+        .flower-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            animation: swing 4s ease-in-out infinite;
+        }
+
+        @keyframes swing {
+
+            0%,
+            100% {
+                transform: rotate(-15deg);
+            }
+
+            50% {
+                transform: rotate(15deg);
+            }
+        }
+
+        /* 新增点击特效 */
+        .click-heart {
+            position: absolute;
+            color: #ff0066;
+            font-size: 24px;
+            animation: burst 1.5s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes burst {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* 在原有样式基础上增加移动端适配 */
+        h1 {
+            font-size: 8vw;
+            /* 响应式字体 */
+            padding: 0 10px;
+            /* 移动端防溢出 */
+        }
+
+        /* 防止长按菜单出现 */
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* 优化点击反馈 */
+        .click-heart:active {
+            opacity: 0.8;
+        }
+    </style>
 </head>
-<style>
-    html {
-        background: #000;
-        height: 100%;
-    }
-
-    /*最外层容器样式*/
-    .wrap {
-        position: relative;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 200px;
-        height: 200px;
-        margin: auto;
-        /*改变左右上下,图片方块移动*/
-
-    }
-
-    /*包裹所有容器样式*/
-    .cube {
-        width: 200px;
-        height: 200px;
-        margin: 0 auto;
-        transform-style: preserve-3d;
-        transform: rotateX(-30deg) rotateY(-80deg);
-        animation: rotate 20s infinite;
-        /*匀速*/
-        animation-timing-function: linear;
-    }
-
-    @keyframes rotate {
-        from {
-            transform: rotateX(0deg) rotateY(0deg);
-        }
-
-        to {
-            transform: rotateX(360deg) rotateY(360deg);
-        }
-    }
-
-    .cube div {
-        position: absolute;
-        width: 200px;
-        height: 200px;
-        opacity: 0.8;
-        transition: all .4s;
-    }
-
-    /*定义所有图片样式*/
-    .pic {
-        width: 200px;
-        height: 200px;
-    }
-
-    .cube .out_front {
-        transform: rotateY(0deg) translateZ(100px);
-    }
-
-    .cube .out_back {
-        transform: translateZ(-100px) rotateY(180deg);
-    }
-
-    .cube .out_left {
-        transform: rotateY(90deg) translateZ(100px);
-    }
-
-    .cube .out_right {
-        transform: rotateY(-90deg) translateZ(100px);
-    }
-
-    .cube .out_top {
-        transform: rotateX(90deg) translateZ(100px);
-    }
-
-    .cube .out_bottom {
-        /* 将元素绕X轴旋转-90度，然后沿Z轴正方向平移100px */
-        transform: rotateX(-90deg) translateZ(100px);
-    }
-
-    /*定义小正方体样式*/
-    .cube span {
-        display: bloack;
-        width: 100px;
-        height: 100px;
-        position: absolute;
-        top: 50px;
-        left: 50px;
-    }
-
-    .cube .in_pic {
-        width: 100px;
-        height: 100px;
-    }
-
-    .cube .in_front {
-        transform: rotateY(0deg) translateZ(50px);
-    }
-
-    .cube .in_back {
-        transform: translateZ(-50px) rotateY(180deg);
-    }
-
-    .cube .in_left {
-        transform: rotateY(90deg) translateZ(50px);
-    }
-
-    .cube .in_right {
-        transform: rotateY(-90deg) translateZ(50px);
-    }
-
-    .cube .in_top {
-        transform: rotateX(90deg) translateZ(50px);
-    }
-
-    .cube .in_bottom {
-        transform: rotateX(-90deg) translateZ(50px);
-    }
-
-    /*鼠标移入后样式*/
-    .cube:hover .out_front {
-        transform: rotateY(0deg) translateZ(200px);
-    }
-
-    .cube:hover .out_back {
-        transform: translateZ(-200px) rotateY(180deg);
-    }
-
-    .cube:hover .out_left {
-        transform: rotateY(90deg) translateZ(200px);
-    }
-
-    .cube:hover .out_right {
-        transform: rotateY(-90deg) translateZ(200px);
-    }
-
-    .cube:hover .out_top {
-        transform: rotateX(90deg) translateZ(200px);
-    }
-
-    .cube:hover .out_bottom {
-        transform: rotateX(-90deg) translateZ(200px);
-    }
-</style>
 
 <body>
-    <!--/*外层最大容器*/-->
-    <div class="wrap">
-
-        <!-- /*包裹所有元素的容器*/-->
-        <div class="cube">
-            <!--前面图片 -->
-            <div class="out_front">
-                <img src="./img/tt.01.jpg" class="pic" />
-            </div>
-            <!--后面图片 -->
-            <div class="out_back">
-                <img src="./img/tt.02.jpg" class="pic" />
-            </div>
-            <!--左图片 -->
-            <div class="out_left">
-                <img src="./img/tt.03.jpg" class="pic" />
-            </div>
-            <div class="out_right">
-                <img src="./img/tt.04.jpg" class="pic" />
-            </div>
-            <div class="out_top">
-                <img src="./img/tt.05.jpg" class="pic" />
-            </div>
-            <div class="out_bottom">
-                <img src="./img/tt.06.jpg" class="pic" />
-            </div>
-            <!--小正方体 -->
-            <span class="in_front">
-                <img src="./img/tt.01.jpg" class="in_pic" />
-            </span>
-            <span class="in_back">
-                <img src="./img/tt.02.jpg" class="in_pic" />
-            </span>
-            <span class="in_left">
-                <img src="./img/tt.03.jpg" class="in_pic" />
-            </span>
-            <span class="in_right">
-                <img src="./img/tt.04.jpg" class="in_pic" />
-            </span>
-            <span class="in_top">
-                <img src="./img/tt.05.jpg" class="in_pic" />
-            </span>
-            <span class="in_bottom">
-                <img src="./img/tt.06.jpg" class="in_pic" />
-            </span>
+    <div class="container">
+        <div class="hearts" id="hearts"></div>
+        <!-- 新增玫瑰装饰 -->
+        <div class="flower-container">
+            <span style="font-size: 80px; color: #FF69B4;">🌹</span>
+            <span style="font-size: 60px; color: #FF1493;">🌹</span>
         </div>
+        <h1>祝<span style="color: #ffff00;">王燕萍</span>情人节快乐！</h1>
     </div>
-</body>
+
+
+    <script>
+        // 新增点击互动功能
+        function handleInteraction(e) {
+            // 统一获取坐标
+            let x, y;
+            if (e.type === 'touchstart') {
+                e.preventDefault(); // 阻止默认滚动行为
+                x = e.touches[0].clientX;
+                y = e.touches[0].clientY;
+            } else {
+                x = e.clientX;
+                y = e.clientY;
+            }
+
+            // 创建多个溅射效果
+            for (let i = 0; i < 8; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤';
+                heart.classList.add('click-heart');
+
+                // 随机参数
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 20 + Math.random() * 80;
+                const tx = Math.cos(angle) * velocity + 'px';
+                const ty = Math.sin(angle) * velocity + 'px';
+
+                // 设置样式
+                heart.style.left = x + 'px';
+                heart.style.top = y + 'px';
+                heart.style.setProperty('--tx', tx);
+                heart.style.setProperty('--ty', ty);
+                heart.style.fontSize = Math.random() * 20 + 12 + 'px';
+                heart.style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+
+                document.body.appendChild(heart);
+
+                // 自动移除
+                setTimeout(() => heart.remove(), 1500);
+            }
+        }
+        // 同时绑定两种事件类型
+        document.addEventListener('click', handleInteraction);
+        document.addEventListener('touchstart', handleInteraction);
+        // 修改现有创建爱心函数（添加悬浮效果）
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤';
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.cursor = 'pointer';
+
+            // 添加悬浮放大效果
+            heart.style.transition = 'transform 0.3s';
+            heart.addEventListener('mouseover', function () {
+                this.style.transform = 'scale(1.5)';
+            });
+            heart.addEventListener('mouseout', function () {
+                this.style.transform = 'scale(1)';
+            });
+
+            document.getElementById('hearts').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+        setInterval(createHeart, 300);
+
+        // 新增创建玫瑰函数
+        function createRose() {
+            const rose = document.createElement('div');
+            rose.innerHTML = '🌹';
+            rose.classList.add('rose');
+            rose.style.left = Math.random() * 100 + '%';
+            rose.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            document.getElementById('hearts').appendChild(rose);
+
+            setTimeout(() => {
+                rose.remove();
+            }, 5000);
+        }
+
+        // 修改原本的创建间隔
+        setInterval(() => {
+            createHeart();
+            // 使玫瑰稍慢于爱心出现
+            if (Math.random() > 0.7) createRose();
+        }, 250);
+    </script>
 </body>
 
 </html>
